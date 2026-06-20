@@ -1,7 +1,7 @@
 import { getPreferenceValues, getSelectedText, showHUD } from "@raycast/api";
 import { TranslatePreferences } from "./types/translate";
 import { showHUDWhile } from "./utils/hud";
-import { shouldAutoSpeak, startSpeech } from "./utils/speech";
+import { shouldAutoSpeak, startSpeech, SpeechEngine } from "./utils/speech";
 import {
   detectLanguageDirection,
   languageLabel,
@@ -37,10 +37,13 @@ export default async function Command() {
       `${languageLabel(direction.sourceLanguage)} → ${languageLabel(direction.targetLanguage)}`,
     );
     const result = await translateText(text, primaryLanguage, targetLanguage);
+    let hudLabel = result.translatedText;
     const speechPromise = shouldAutoSpeak(result.translatedText, speechMode)
-      ? startSpeech(result.translatedText)
+      ? startSpeech(result.translatedText, result.targetLanguage, undefined, (engine: SpeechEngine) => {
+          hudLabel = `${result.translatedText} · ${engine === "google" ? "Google TTS" : "macOS"}`;
+        })
       : undefined;
-    await showHUDWhile(result.translatedText, speechPromise);
+    await showHUDWhile(() => hudLabel, speechPromise);
   } catch {
     await showHUDWhile("Translation failed");
   }

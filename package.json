@@ -77,6 +77,18 @@
       ]
     },
     {
+      "name": "speakSelectionRate",
+      "title": "Speak Selection Speed",
+      "description": "Playback speed for the Speak Selection command.",
+      "type": "dropdown",
+      "required": false,
+      "default": "normal",
+      "data": [
+        { "title": "Normal", "value": "normal" },
+        { "title": "Slow", "value": "slow" }
+      ]
+    },
+    {
       "name": "speechMode",
       "title": "Speech Mode",
       "description": "Choose when translated text should be spoken automatically.",

@@ -9,6 +9,7 @@ export type TranslateLaunchContext = {
 
 export type SupportedLanguage = "zh-TW" | "zh-CN" | "en" | "ja" | "ko";
 export type SpeechMode = "off" | "short-only" | "always";
+export type SpeechRate = "normal" | "slow";
 
 export type TranslateResult = {
   sourceLanguage: SupportedLanguage;
@@ -25,4 +26,5 @@ export type TranslatePreferences = {
   primaryLanguage: SupportedLanguage;
   secondaryLanguage: SupportedLanguage;
   speechMode?: SpeechMode;
+  speakSelectionRate?: SpeechRate;
 };

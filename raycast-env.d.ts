@@ -12,6 +12,8 @@ type ExtensionPreferences = {
   "primaryLanguage": "zh-TW" | "zh-CN" | "en" | "ja" | "ko",
   /** Secondary Language - Translate primary language text into this language, and vice versa. */
   "secondaryLanguage": "en" | "zh-TW" | "zh-CN" | "ja" | "ko",
+  /** Speak Selection Speed - Playback speed for the Speak Selection command. */
+  "speakSelectionRate": "normal" | "slow",
   /** Speech Mode - Choose when translated text should be spoken automatically. */
   "speechMode": "off" | "short-only" | "always"
 }
