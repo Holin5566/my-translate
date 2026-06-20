@@ -10,7 +10,7 @@ export default async function Command() {
     const selectedText = (await getSelectedText()).trim();
 
     await launchCommand({
-      name: "smart-translate",
+      name: "translate-text",
       type: LaunchType.UserInitiated,
       context: {
         text: selectedText,
@@ -20,7 +20,7 @@ export default async function Command() {
   } catch {
     await showHUD("No selected text found");
     await launchCommand({
-      name: "smart-translate",
+      name: "translate-text",
       type: LaunchType.UserInitiated,
       context: {
         launchId: `${Date.now()}-${Math.random().toString(36).slice(2)}`,

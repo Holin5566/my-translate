@@ -26,10 +26,16 @@ declare namespace Preferences {
   export type InstantTranslatePaste = ExtensionPreferences & {}
   /** Preferences accessible in the `instant-translate-view` command */
   export type InstantTranslateView = ExtensionPreferences & {}
-  /** Preferences accessible in the `translate-selected-text` command */
-  export type TranslateSelectedText = ExtensionPreferences & {}
-  /** Preferences accessible in the `smart-translate` command */
-  export type SmartTranslate = ExtensionPreferences & {}
+  /** Preferences accessible in the `open-text-translation` command */
+  export type OpenTextTranslation = ExtensionPreferences & {}
+  /** Preferences accessible in the `translate-text` command */
+  export type TranslateText = ExtensionPreferences & {}
+  /** Preferences accessible in the `speak-selection` command */
+  export type SpeakSelection = ExtensionPreferences & {}
+  /** Preferences accessible in the `recent-vocabulary` command */
+  export type RecentVocabulary = ExtensionPreferences & {}
+  /** Preferences accessible in the `frequent-vocabulary` command */
+  export type FrequentVocabulary = ExtensionPreferences & {}
 }
 
 declare namespace Arguments {
@@ -39,12 +45,18 @@ declare namespace Arguments {
   export type InstantTranslatePaste = {}
   /** Arguments passed to the `instant-translate-view` command */
   export type InstantTranslateView = {}
-  /** Arguments passed to the `translate-selected-text` command */
-  export type TranslateSelectedText = {}
-  /** Arguments passed to the `smart-translate` command */
-  export type SmartTranslate = {
+  /** Arguments passed to the `open-text-translation` command */
+  export type OpenTextTranslation = {}
+  /** Arguments passed to the `translate-text` command */
+  export type TranslateText = {
   /** Optional text to translate */
   "text": string
 }
+  /** Arguments passed to the `speak-selection` command */
+  export type SpeakSelection = {}
+  /** Arguments passed to the `recent-vocabulary` command */
+  export type RecentVocabulary = {}
+  /** Arguments passed to the `frequent-vocabulary` command */
+  export type FrequentVocabulary = {}
 }
 

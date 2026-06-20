@@ -33,9 +33,7 @@ export default function Command(
     handleSearchTextChange,
     clearInput,
     history,
-    removeHistory,
     clearHistory,
-    fillFromHistory,
     speakTranslated,
     speechSkippedForLength,
   } = useSmartTranslate({ incomingText, launchId });
@@ -70,7 +68,7 @@ export default function Command(
     : error
       ? `# Translation Error\n\n${error}`
       : [
-          "# Smart Translate",
+          "# Text Translation",
           selectionUnavailable
             ? "Couldn't read selected text from the frontmost app. You can still type or paste text here."
             : "Type text or launch the command with selected text.",
@@ -159,64 +157,6 @@ export default function Command(
           actions={mainActions}
         />
       </List.Section>
-
-      {history.length > 0 && (
-        <List.Section title="History">
-          {history.map((item) => (
-            <List.Item
-              key={item.id}
-              title={item.original}
-              subtitle={item.translated}
-              accessories={[{ text: `${item.source} → ${item.target}` }]}
-              icon={Icon.Clock}
-              detail={
-                <List.Item.Detail
-                  markdown={[
-                    "# History",
-                    `**${item.source} -> ${item.target}**`,
-                    item.translated,
-                    "",
-                    "---",
-                    "## Original",
-                    item.original,
-                  ].join("\n\n")}
-                />
-              }
-              actions={
-                <ActionPanel>
-                  <Action
-                    title="Translate Again"
-                    icon={Icon.ArrowRight}
-                    onAction={() => fillFromHistory(item.original)}
-                  />
-                  <Action.CopyToClipboard
-                    content={item.translated}
-                    title="Copy Translation"
-                  />
-                  <Action.CopyToClipboard
-                    content={item.original}
-                    title="Copy Original"
-                  />
-                  <Action
-                    title="Remove from History"
-                    icon={Icon.Trash}
-                    style={Action.Style.Destructive}
-                    onAction={() => removeHistory(item.id)}
-                    shortcut={{ modifiers: ["cmd"], key: "backspace" }}
-                  />
-                  <Action
-                    title="Clear All History"
-                    icon={Icon.Trash}
-                    style={Action.Style.Destructive}
-                    onAction={clearHistory}
-                    shortcut={{ modifiers: ["cmd", "shift"], key: "backspace" }}
-                  />
-                </ActionPanel>
-              }
-            />
-          ))}
-        </List.Section>
-      )}
     </List>
   );
 }

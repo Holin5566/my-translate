@@ -1,6 +1,6 @@
 import { getPreferenceValues, getSelectedText } from "@raycast/api";
 import { useEffect, useRef, useState } from "react";
-import { LanguageDirection, TranslatePreferences } from "../types/translate";
+import { LanguageDirection, SupportedLanguage, TranslatePreferences } from "../types/translate";
 import { shouldAutoSpeak, speakText } from "../utils/speech";
 import { languageLabel, translateText } from "../utils/translate";
 import { useTranslateHistory } from "./useTranslateHistory";
@@ -21,6 +21,8 @@ type UseSmartTranslateReturn = {
   handleSearchTextChange: (text: string) => void;
   clearInput: () => void;
   history: ReturnType<typeof useTranslateHistory>["history"];
+  recentHistory: ReturnType<typeof useTranslateHistory>["recentHistory"];
+  frequentHistory: ReturnType<typeof useTranslateHistory>["frequentHistory"];
   removeHistory: ReturnType<typeof useTranslateHistory>["removeHistory"];
   clearHistory: ReturnType<typeof useTranslateHistory>["clearHistory"];
   fillFromHistory: (original: string) => void;
@@ -37,8 +39,14 @@ export function useSmartTranslate({
     secondaryLanguage: targetLanguage,
     speechMode,
   } = getPreferenceValues<TranslatePreferences>();
-  const { history, addHistory, removeHistory, clearHistory } =
-    useTranslateHistory();
+  const {
+    history,
+    recentHistory,
+    frequentHistory,
+    addHistory,
+    removeHistory,
+    clearHistory,
+  } = useTranslateHistory();
 
   const [searchText, setSearchText] = useState(incomingText);
   const [translated, setTranslated] = useState("");
@@ -46,6 +54,7 @@ export function useSmartTranslate({
   const [error, setError] = useState<string>();
   const [selectionUnavailable, setSelectionUnavailable] = useState(false);
   const [direction, setDirection] = useState<LanguageDirection>();
+  const [translatedLanguage, setTranslatedLanguage] = useState<SupportedLanguage>();
   const [ready, setReady] = useState(Boolean(incomingText));
   const [speechSkippedForLength, setSpeechSkippedForLength] = useState(false);
 
@@ -86,13 +95,14 @@ export function useSmartTranslate({
   }
 
   async function speakTranslated() {
-    await speakText(translated);
+    await speakText(translated, translatedLanguage);
   }
 
   useEffect(() => {
     userEditedTextRef.current = false;
     setTranslated("");
     setDirection(undefined);
+    setTranslatedLanguage(undefined);
     setError(undefined);
     setSpeechSkippedForLength(false);
 
@@ -139,6 +149,7 @@ export function useSmartTranslate({
     if (!trimmed) {
       setTranslated("");
       setDirection(undefined);
+      setTranslatedLanguage(undefined);
       setError(undefined);
       setIsLoading(false);
       setSpeechSkippedForLength(false);
@@ -164,6 +175,7 @@ export function useSmartTranslate({
         };
         setTranslated(result.translatedText);
         setDirection(dir);
+        setTranslatedLanguage(result.targetLanguage);
         const shouldSpeak = shouldAutoSpeak(result.translatedText, speechMode);
         setSpeechSkippedForLength(speechMode === "short-only" && !shouldSpeak);
         addHistory({
@@ -172,13 +184,14 @@ export function useSmartTranslate({
           ...dir,
         });
         if (shouldSpeak) {
-          void speakText(result.translatedText);
+          void speakText(result.translatedText, result.targetLanguage);
         }
       } catch (translationError) {
         if (requestId !== requestIdRef.current) return;
 
         setTranslated("");
         setDirection(undefined);
+        setTranslatedLanguage(undefined);
         setSpeechSkippedForLength(false);
         setError(
           translationError instanceof Error
@@ -204,6 +217,8 @@ export function useSmartTranslate({
     handleSearchTextChange,
     clearInput,
     history,
+    recentHistory,
+    frequentHistory,
     removeHistory,
     clearHistory,
     fillFromHistory,

@@ -122,17 +122,17 @@
       "mode": "no-view"
     },
     {
-      "name": "translate-selected-text",
-      "title": "Translate Selected Text",
-      "subtitle": "Use with a hotkey to translate the current selection",
-      "description": "Capture selected text from the frontmost app and open My Translate.",
+      "name": "open-text-translation",
+      "title": "Open Text Translation",
+      "subtitle": "Open translation with the current selection",
+      "description": "Capture selected text from the frontmost app and open Text Translation with it.",
       "mode": "no-view"
     },
     {
-      "name": "smart-translate",
-      "title": "Smart Translate",
-      "subtitle": "Auto-detect language direction",
-      "description": "Translate selected text or manual input with automatic direction detection.",
+      "name": "translate-text",
+      "title": "Text Translation",
+      "subtitle": "Translate selected text or typed input",
+      "description": "Translate selected text or manual input with automatic language direction detection.",
       "mode": "view",
       "arguments": [
         {
@@ -141,6 +141,27 @@
           "placeholder": "Optional text to translate"
         }
       ]
+    },
+    {
+      "name": "speak-selection",
+      "title": "Speak Selection",
+      "subtitle": "My Translate",
+      "description": "Read the highlighted text aloud in the secondary language.",
+      "mode": "no-view"
+    },
+    {
+      "name": "recent-vocabulary",
+      "title": "Recent Vocabulary",
+      "subtitle": "Recently translated words and phrases",
+      "description": "Review the words and phrases you translated most recently.",
+      "mode": "view"
+    },
+    {
+      "name": "frequent-vocabulary",
+      "title": "Frequent Vocabulary",
+      "subtitle": "Your most frequently translated words",
+      "description": "Review the words and phrases you translate most often.",
+      "mode": "view"
     }
   ],
   "scripts": {

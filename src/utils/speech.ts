@@ -1,5 +1,15 @@
-import { spawn } from "node:child_process";
-import { SpeechMode } from "../types/translate";
+import { spawn, ChildProcess } from "node:child_process";
+import { SpeechMode, SupportedLanguage } from "../types/translate";
+
+let activeSpeechProcess: ChildProcess | undefined;
+
+const LANGUAGE_VOICES: Record<SupportedLanguage, string> = {
+  "zh-TW": "Meijia",
+  "zh-CN": "Tingting",
+  en: "Samantha",
+  ja: "Kyoko",
+  ko: "Yuna",
+};
 
 const LEADING_SILENCE_MS = 100;
 const TRAILING_SILENCE_MS = 900;
@@ -42,13 +52,15 @@ function buildSpeechPayload(text: string): string | undefined {
   return `[[slnc ${LEADING_SILENCE_MS}]] ${trimmed} [[slnc ${TRAILING_SILENCE_MS}]]`;
 }
 
-export function startSpeech(text: string): Promise<void> | undefined {
+export function startSpeech(text: string, language?: SupportedLanguage): Promise<void> | undefined {
   const paddedText = buildSpeechPayload(text);
   if (!paddedText) return undefined;
 
-  const child = spawn("say", [paddedText], {
-    stdio: "ignore",
-  });
+  activeSpeechProcess?.kill();
+
+  const args = language ? ["-v", LANGUAGE_VOICES[language], paddedText] : [paddedText];
+  const child = spawn("say", args, { stdio: "ignore" });
+  activeSpeechProcess = child;
 
   return new Promise<void>((resolve) => {
     child.on("error", (error) => {
@@ -56,11 +68,12 @@ export function startSpeech(text: string): Promise<void> | undefined {
       resolve();
     });
     child.on("exit", () => {
+      if (activeSpeechProcess === child) activeSpeechProcess = undefined;
       resolve();
     });
   });
 }
 
-export async function speakText(text: string): Promise<void> {
-  await (startSpeech(text) ?? Promise.resolve());
+export async function speakText(text: string, language?: SupportedLanguage): Promise<void> {
+  await (startSpeech(text, language) ?? Promise.resolve());
 }
