@@ -1,0 +1,162 @@
+{
+  "name": "my-translate",
+  "title": "My Translate",
+  "description": "Translate selected text or manual input between Chinese and English.",
+  "icon": "icon.svg",
+  "author": "liam5566",
+  "categories": [
+    "Productivity",
+    "Developer Tools"
+  ],
+  "keywords": [
+    "translate",
+    "translation",
+    "chinese",
+    "english"
+  ],
+  "license": "MIT",
+  "preferences": [
+    {
+      "name": "primaryLanguage",
+      "title": "Primary Language",
+      "description": "Your main language. Text not in this language will be translated into it.",
+      "type": "dropdown",
+      "required": false,
+      "default": "zh-TW",
+      "data": [
+        {
+          "title": "繁體中文",
+          "value": "zh-TW"
+        },
+        {
+          "title": "简体中文",
+          "value": "zh-CN"
+        },
+        {
+          "title": "English",
+          "value": "en"
+        },
+        {
+          "title": "日本語",
+          "value": "ja"
+        },
+        {
+          "title": "한국어",
+          "value": "ko"
+        }
+      ]
+    },
+    {
+      "name": "secondaryLanguage",
+      "title": "Secondary Language",
+      "description": "Translate primary language text into this language, and vice versa.",
+      "type": "dropdown",
+      "required": false,
+      "default": "en",
+      "data": [
+        {
+          "title": "English",
+          "value": "en"
+        },
+        {
+          "title": "繁體中文",
+          "value": "zh-TW"
+        },
+        {
+          "title": "简体中文",
+          "value": "zh-CN"
+        },
+        {
+          "title": "日本語",
+          "value": "ja"
+        },
+        {
+          "title": "한국어",
+          "value": "ko"
+        }
+      ]
+    },
+    {
+      "name": "speechMode",
+      "title": "Speech Mode",
+      "description": "Choose when translated text should be spoken automatically.",
+      "type": "dropdown",
+      "required": false,
+      "default": "short-only",
+      "data": [
+        {
+          "title": "Off",
+          "value": "off"
+        },
+        {
+          "title": "Short Only",
+          "value": "short-only"
+        },
+        {
+          "title": "Always",
+          "value": "always"
+        }
+      ]
+    }
+  ],
+  "commands": [
+    {
+      "name": "instant-translate-copy",
+      "title": "Instant Translate Copy",
+      "subtitle": "My Translate",
+      "description": "Translate selected text and copy the result to clipboard.",
+      "mode": "no-view"
+    },
+    {
+      "name": "instant-translate-paste",
+      "title": "Instant Translate Paste",
+      "subtitle": "My Translate",
+      "description": "Translate selected text and paste the result in place.",
+      "mode": "no-view"
+    },
+    {
+      "name": "instant-translate-view",
+      "title": "Instant Translate View",
+      "subtitle": "My Translate",
+      "description": "Translate selected text and show the result as a floating HUD overlay.",
+      "mode": "no-view"
+    },
+    {
+      "name": "translate-selected-text",
+      "title": "Translate Selected Text",
+      "subtitle": "Use with a hotkey to translate the current selection",
+      "description": "Capture selected text from the frontmost app and open My Translate.",
+      "mode": "no-view"
+    },
+    {
+      "name": "smart-translate",
+      "title": "Smart Translate",
+      "subtitle": "Auto-detect language direction",
+      "description": "Translate selected text or manual input with automatic direction detection.",
+      "mode": "view",
+      "arguments": [
+        {
+          "name": "text",
+          "type": "text",
+          "placeholder": "Optional text to translate"
+        }
+      ]
+    }
+  ],
+  "scripts": {
+    "build": "ray build -e dist",
+    "dev": "ray develop",
+    "lint": "ray lint --relaxed"
+  },
+  "dependencies": {
+    "@raycast/api": "^1.83.1"
+  },
+  "devDependencies": {
+    "@raycast/eslint-config": "^2.0.4",
+    "@types/node": "^22.10.1",
+    "@types/react": "^18.3.12",
+    "eslint": "^8.57.1",
+    "prettier": "^3.4.2",
+    "typescript": "^5.7.2"
+  }
+}
